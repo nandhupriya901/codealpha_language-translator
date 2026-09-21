@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Translator</title>
+</head>
+<body>
+
+  
+  
+  <h1>Translate</h1>
+
+  
+  <select id="sourceLang"></select>
+  <select id="targetLang"></select>
+
+  <br><br>
+
+  
+  <textarea id="sourceText" rows="4" cols="40" placeholder="Type text here, or click the mic to speak"></textarea>
+
+  <br>
+
+  
+  <button id="micBtn">🎤 Speak</button>
+  <span id="micStatus"></span>
+
+  <br><br>
+
+  
+  <button id="translateBtn">Translate</button>
+  <p id="outputText">Translation will appear here</p>
+
+  
+  <button id="copyBtn">Copy</button>
+  <button id="speakBtn">Listen</button>
+
+  
+  <script>
+    
+    const LANGUAGES = [
+      ['en','English'],['es','Spanish'],['fr','French'],['de','German'],
+      ['hi','Hindi'],['ta','Tamil'],['te','Telugu'],['kn','Kannada'],
+      ['ml','Malayalam'],['bn','Bengali'],['mr','Marathi'],['gu','Gujarati'],
+      ['pa','Punjabi'],['ur','Urdu'],['zh-CN','Chinese (Simplified)'],
+      ['ja','Japanese'],['ko','Korean'],['ar','Arabic'],['ru','Russian'],
+      ['pt','Portuguese'],['it','Italian'],['nl','Dutch'],['tr','Turkish'],
+      ['vi','Vietnamese'],['th','Thai'],['id','Indonesian']
+    ];
+
+    const SPEECH_LOCALES = {
+      en:'en-US', es:'es-ES', fr:'fr-FR', de:'de-DE', hi:'hi-IN', ta:'ta-IN',
+      te:'te-IN', kn:'kn-IN', ml:'ml-IN', bn:'bn-IN', mr:'mr-IN', gu:'gu-IN',
+      pa:'pa-IN', ur:'ur-IN', 'zh-CN':'zh-CN', ja:'ja-JP', ko:'ko-KR',
+      ar:'ar-SA', ru:'ru-RU', pt:'pt-PT', it:'it-IT', nl:'nl-NL', tr:'tr-TR',
+      vi:'vi-VN', th:'th-TH', id:'id-ID'
+    };
+
+    
+    const sourceText   = document.getElementById('sourceText');
+    const sourceLang   = document.getElementById('sourceLang');
+    const targetLang   = document.getElementById('targetLang');
+    const translateBtn = document.getElementById('translateBtn');
+    const outputText   = document.getElementById('outputText');
+    const copyBtn      = document.getElementById('copyBtn');
+    const speakBtn     = document.getElementById('speakBtn');
+    const micBtn       = document.getElementById('micBtn');
+    const micStatus    = document.getElementById('micStatus');
+
+   
+    function populateSelect(selectElement, defaultCode) {
+      selectElement.innerHTML = '';
+      LANGUAGES.forEach(([code, name]) => {
+        const option = document.createElement('option');
+        option.value = code;
+        option.textContent = name;
+        if (code === defaultCode) option.selected = true;
+        selectElement.appendChild(option);
+      });
+    }
+
+    populateSelect(sourceLang, 'en');
+    populateSelect(targetLang, 'hi');
+
+    
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+    }
+
+    
+    translateBtn.addEventListener('click', async () => {
+      const text = sourceText.value.trim();
+      const from = sourceLang.value;
+      const to = targetLang.value;
+
+      if (!text) {
+        outputText.textContent = 'Please type or speak something first.';
+        return;
+      }
+
+      if (from === to) {
+        outputText.textContent = 'Please select two different languages.';
+        return;
+      }
+
+      outputText.textContent = 'Translating...';
+
+      const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('API Request Failed');
+        
+        const data = await response.json();
+        
+        if (data && data.responseData && data.responseData.translatedText) {
+          outputText.textContent = data.responseData.translatedText;
+        } else {
+          outputText.textContent = 'Translation unavailable for this phrase.';
+        }
+      } catch (error) {
+        outputText.textContent = 'Error connecting to translation service.';
+      }
+    });
+
+   
+    copyBtn.addEventListener('click', () => {
+      if (!outputText.textContent || outputText.textContent === 'Translation will appear here') return;
+      navigator.clipboard.writeText(outputText.textContent);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+    });
+
+    
+    speakBtn.addEventListener('click', () => {
+      const textToSpeak = outputText.textContent;
+      if (!textToSpeak || textToSpeak === 'Translation will appear here') return;
+
+      const targetCode = targetLang.value;
+      const targetLocale = SPEECH_LOCALES[targetCode] || targetCode;
+
+      
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); 
+
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.lang = targetLocale;
+
+        const voices = window.speechSynthesis.getVoices();
+        const matchedVoice = voices.find(voice => 
+          voice.lang === targetLocale || 
+          voice.lang.replace('_', '-').startsWith(targetCode)
+        );
+
+        if (matchedVoice) {
+          utterance.voice = matchedVoice;
+          window.speechSynthesis.speak(utterance);
+          return;
+        }
+      }
+
+      
+      const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(textToSpeak)}&tl=${targetCode}&client=tw-ob`;
+      const audio = new Audio(audioUrl);
+      
+      audio.play().catch(() => {
+        micStatus.textContent = 'Audio playback failed for this language.';
+      });
+    });
+
+    
+    
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      micBtn.disabled = true;
+      micStatus.textContent = 'Voice input not supported in this browser.';
+    } else {
+      const recognition = new SpeechRecognition();
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      micBtn.addEventListener('click', () => {
+        recognition.lang = SPEECH_LOCALES[sourceLang.value] || sourceLang.value;
+        
+        try {
+          recognition.start();
+          micStatus.textContent = 'Listening...';
+          micBtn.disabled = true;
+        } catch (err) {
+          recognition.stop();
+        }
+      });
+
+      recognition.addEventListener('result', (event) => {
+        const spokenText = event.results[0][0].transcript;
+        sourceText.value = spokenText;
+        micStatus.textContent = 'Captured: "' + spokenText + '"';
+      });
+
+      recognition.addEventListener('error', (event) => {
+        micStatus.textContent = 'Mic error: ' + event.error;
+      });
+
+      recognition.addEventListener('end', () => {
+        micBtn.disabled = false;
+      });
+    }
+  </script>
+
+</body>
+</html>
