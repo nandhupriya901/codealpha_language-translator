@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crop Care — Ask the Field Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <main class="ledger">
+    <header class="ledger-head">
+      <span class="ledger-tab">Field Book</span>
+      <h1>Crop Care Q&amp;A</h1>
+      <p class="sub">Ask about watering, soil, pests, fertilizer, or harvest timing.</p>
+    </header>
+
+    <section class="rows" id="suggestions" aria-label="Try asking">
+      <button class="row-chip" data-q="How often should I water my crops?">watering schedule</button>
+      <button class="row-chip" data-q="How do I control pests naturally?">pest control</button>
+      <button class="row-chip" data-q="What is the ideal soil pH?">soil pH</button>
+      <button class="row-chip" data-q="When should I harvest my crop?">harvest timing</button>
+    </section>
+
+    <section class="log" id="log" aria-live="polite">
+      <div class="entry bot">
+        <div class="stamp">Field Book</div>
+        <div class="bubble">Ask me anything about crop care — watering, soil, pests, fertilizer, disease, or harvest timing.</div>
+      </div>
+    </section>
+
+    <form class="entry-form" id="entry-form" autocomplete="off">
+      <input type="text" id="entry-input" placeholder="Type your question…" aria-label="Your question">
+      <button type="submit">Ask</button>
+    </form>
+
+    <p class="match-note" id="match-note" aria-live="polite"></p>
+  </main>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

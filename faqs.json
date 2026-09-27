@@ -1,0 +1,62 @@
+[
+  {
+    "question": "How often should I water my crops?",
+    "answer": "Most crops need 1 to 2 inches of water per week, either from rainfall or irrigation. Water deeply and less frequently to encourage strong root growth, rather than shallow daily watering."
+  },
+  {
+    "question": "What is the best time of day to water plants?",
+    "answer": "Early morning, before 10 AM, is best. It reduces evaporation loss and gives leaves time to dry before nightfall, which lowers the risk of fungal disease."
+  },
+  {
+    "question": "How do I know if my soil needs fertilizer?",
+    "answer": "Get a soil test done every 2-3 years to check nutrient levels (nitrogen, phosphorus, potassium) and pH. Yellowing leaves, stunted growth, or poor yields are common visual signs of nutrient deficiency."
+  },
+  {
+    "question": "What causes yellow leaves on plants?",
+    "answer": "Yellow leaves usually indicate overwatering, nitrogen deficiency, poor drainage, or root damage. Check soil moisture first, since overwatering is the most common cause."
+  },
+  {
+    "question": "How can I control pests without chemical pesticides?",
+    "answer": "Use neem oil spray, introduce natural predators like ladybugs, rotate crops each season, and remove affected leaves promptly. Companion planting with marigold or garlic also helps repel many common pests."
+  },
+  {
+    "question": "When is the right time to harvest crops?",
+    "answer": "Harvest timing depends on the crop, but general signs include a change in color, firmness, and size matching the variety's typical maturity. Harvesting too early reduces yield; too late risks spoilage or pest damage."
+  },
+  {
+    "question": "How do I identify plant diseases early?",
+    "answer": "Inspect leaves, stems, and roots weekly for spots, discoloration, wilting, or unusual growths. Early symptoms often appear on the undersides of leaves, so check there first."
+  },
+  {
+    "question": "What is crop rotation and why is it important?",
+    "answer": "Crop rotation means growing different types of crops in the same area across seasons. It prevents soil nutrient depletion, breaks pest and disease cycles, and improves long-term soil health."
+  },
+  {
+    "question": "How much sunlight do vegetable crops need?",
+    "answer": "Most vegetable crops need 6-8 hours of direct sunlight daily. Leafy greens can tolerate partial shade, but fruiting crops like tomatoes and peppers need full sun for good yields."
+  },
+  {
+    "question": "What is the ideal soil pH for most crops?",
+    "answer": "Most crops grow best in slightly acidic to neutral soil, with a pH between 6.0 and 7.0. Outside this range, plants struggle to absorb nutrients even if the nutrients are present in the soil."
+  },
+  {
+    "question": "How do I prevent fungal infections in crops?",
+    "answer": "Improve air circulation by proper spacing, avoid overhead watering, remove infected plant debris, and apply a fungicide preventively during humid seasons. Crop rotation also reduces fungal buildup in soil."
+  },
+  {
+    "question": "What is organic farming?",
+    "answer": "Organic farming avoids synthetic pesticides, fertilizers, and genetically modified seeds, relying instead on natural methods like compost, crop rotation, and biological pest control to maintain soil and plant health."
+  },
+  {
+    "question": "How do I improve soil fertility naturally?",
+    "answer": "Add compost or well-rotted manure, grow cover crops like legumes that fix nitrogen, practice crop rotation, and minimize tilling to protect soil structure and microbial life."
+  },
+  {
+    "question": "Why are my seedlings dying after germination?",
+    "answer": "This is often 'damping off,' a fungal condition caused by overwatering, poor drainage, or overcrowding. Use sterile soil, avoid excess moisture, and ensure good airflow around seedlings."
+  },
+  {
+    "question": "How do I choose the right crop for my region?",
+    "answer": "Consider your region's climate, average rainfall, temperature range, and soil type. Local agricultural extension offices or region-specific crop calendars are the most reliable source for this decision."
+  }
+]

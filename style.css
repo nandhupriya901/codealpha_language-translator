@@ -1,0 +1,206 @@
+:root {
+  --ink: #182720;
+  --panel: #24352A;
+  --panel-line: #3B5343;
+  --parchment: #F3EEE1;
+  --parchment-dim: #C9C2AC;
+  --gold: #C9A227;
+  --soil: #8B5E34;
+  --soil-bright: #B8793F;
+  font-size: 16px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ink);
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0) 200px);
+  color: var(--parchment);
+  font-family: "Work Sans", -apple-system, "Segoe UI", sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 48px 20px;
+}
+
+.ledger {
+  width: 100%;
+  max-width: 640px;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 3px;
+  padding: 0 28px 28px;
+  position: relative;
+}
+
+/* torn-ledger accent along the top edge, instead of a rounded-card shadow */
+.ledger::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: 0; right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gold) 0 22px,
+    transparent 22px 34px
+  );
+  opacity: 0.85;
+}
+
+.ledger-head {
+  padding: 30px 0 18px;
+  border-bottom: 1px solid var(--panel-line);
+  margin-bottom: 18px;
+}
+
+.ledger-tab {
+  display: inline-block;
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  background: var(--gold);
+  padding: 3px 10px 4px;
+  border-radius: 0 0 4px 4px;
+  margin-bottom: 14px;
+}
+
+.ledger-head h1 {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-weight: 600;
+  font-size: 1.9rem;
+  margin: 0 0 6px;
+  color: var(--parchment);
+}
+
+.ledger-head .sub {
+  margin: 0;
+  color: var(--parchment-dim);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 46ch;
+}
+
+.rows {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.row-chip {
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.82rem;
+  color: var(--parchment);
+  background: transparent;
+  border: 1px solid var(--panel-line);
+  border-left: 3px solid var(--gold);
+  border-radius: 2px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.row-chip:hover,
+.row-chip:focus-visible {
+  background: rgba(201, 162, 39, 0.12);
+  border-color: var(--gold);
+  outline: none;
+}
+
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 140px;
+  max-height: 46vh;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-bottom: 16px;
+}
+
+.log::-webkit-scrollbar { width: 6px; }
+.log::-webkit-scrollbar-thumb { background: var(--panel-line); border-radius: 3px; }
+
+.entry { display: flex; flex-direction: column; max-width: 86%; }
+.entry.user { align-self: flex-end; align-items: flex-end; }
+.entry.bot { align-self: flex-start; align-items: flex-start; }
+
+.stamp {
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: var(--parchment-dim);
+  margin-bottom: 4px;
+  padding: 0 2px;
+}
+
+.bubble {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  padding: 10px 14px;
+  border-radius: 2px;
+}
+
+.entry.bot .bubble {
+  background: var(--parchment);
+  color: var(--ink);
+  border-left: 3px solid var(--gold);
+}
+
+.entry.user .bubble {
+  background: var(--soil);
+  color: var(--parchment);
+  border-right: 3px solid var(--soil-bright);
+}
+
+.entry-form {
+  display: flex;
+  gap: 8px;
+}
+
+#entry-input {
+  flex: 1;
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.95rem;
+  padding: 11px 13px;
+  background: var(--ink);
+  border: 1px solid var(--panel-line);
+  border-radius: 2px;
+  color: var(--parchment);
+}
+
+#entry-input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+#entry-input::placeholder { color: var(--parchment-dim); }
+
+.entry-form button {
+  font-family: "Work Sans", sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 11px 20px;
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.entry-form button:hover { background: #DDB53B; }
+
+.match-note {
+  font-size: 0.75rem;
+  color: var(--parchment-dim);
+  min-height: 1em;
+  margin: 8px 2px 0;
+}
+
+@media (max-width: 480px) {
+  .ledger { padding: 0 18px 20px; }
+  .ledger-head { padding-top: 22px; }
+}
